@@ -7,3 +7,4 @@ sphinxext-opengraph
 sphinx-copybutton
 sphinx-autobuild
 sphinx-design
+Sphinx-Substitution-Extensions

@@ -1,19 +1,23 @@
 ---
 hide-toc: true
 ---
-
 ```{include} ../../README.md
 :start-after: <!-- start elevator-pitch -->
 :end-before: <!-- end elevator-pitch -->
 ```
 ```{toctree}
-:caption: Getting Started
-tutorial/index
-```
-```{toctree}
-:caption: Development
-:hidden:
 :maxdepth: 2
-manual/index
-reference/index
+:caption: local setups
+client/arch
+client/gentoo
+client/opensuse
+client/ubuntu
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: server setups
+server/tools/index
+server/ubuntu/index
+server/pve/index
 ```

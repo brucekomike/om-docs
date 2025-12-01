@@ -1,6 +1,8 @@
 <!-- start elevator-pitch -->
-# furo template
-a simple sphinx template with furo theme and github actions.
+# om-docs
+个人设备以及服务器安装维护脚本收集
+
+<!-- end elevator-pitch -->
 ## quick start
 download [zip file](https://github.com/brucekomike/furo-embeded/archive/refs/heads/main.zip) or dirrect start from this template
 
@@ -18,4 +20,4 @@ download [zip file](https://github.com/brucekomike/furo-embeded/archive/refs/hea
 - [furo docs](https://pradyunsg.me/furo/)
 - [MyST docs](https://myst-parser.readthedocs.io/)
 - [sphinx docs](https://www.sphinx-doc.org/)
-<!-- end elevator-pitch -->
+
