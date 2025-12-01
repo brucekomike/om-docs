@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# stripmarkcode: Extract only raw code from selected Markdown sections.
+# stripmarkcode: Extract only raw code from selected Markdown sections,
+# keeping '#' in titles to preserve header level.
 
 INPUT_CONTENT=""
 PROCESSED_CONTENT=""
@@ -49,15 +50,25 @@ process_markdown() {
     declare -A section_levels
 
     readarray -t lines <<< "$INPUT_CONTENT"
+    local in_code_block=0
 
     for line in "${lines[@]}"; do
-        if [[ "$line" =~ ^(#+)[[:space:]]+(.*)$ ]]; then
+        # Toggle code block mode
+        if [[ "$line" =~ ^\`\`\` ]]; then
+            in_code_block=$((1 - in_code_block))
+            selection_content+="$line"$'\n'
+            continue
+        fi
+
+        # Detect headers only outside code blocks
+        if [[ $in_code_block -eq 0 && "$line" =~ ^(#+)[[:space:]]+(.*)$ ]]; then
             if [[ -n "$current_selection_title" ]]; then
                 sections_map["$current_selection_title"]+="$selection_content"
             fi
             local hashes="${BASH_REMATCH[1]}"
             local title_text="${BASH_REMATCH[2]}"
-            current_selection_title=$(echo "$title_text" | xargs)
+            # Keep the hashes in the stored title
+            current_selection_title="$hashes $title_text"
             section_levels["$current_selection_title"]="${#hashes}"
             section_titles_in_order+=( "$current_selection_title" )
             selection_content=""
@@ -70,6 +81,7 @@ process_markdown() {
         sections_map["$current_selection_title"]+="$selection_content"$'\n'
     fi
 
+    # Prepare dialog options
     local dialog_options=()
     local i=0
     for title in "${section_titles_in_order[@]}"; do

@@ -19,7 +19,7 @@ wikix <url>?raw
 just like the one before, but for markdown
 ```{code-block}
 mdx() {
-    curl -fsSL "{{url}}/remote/misc/wikix.sh" | bash -s -- "$@"
+    curl -fsSL "{{url}}/remote/misc/mdx.sh" | bash -s -- "$@"
 }
 ```
 usage:

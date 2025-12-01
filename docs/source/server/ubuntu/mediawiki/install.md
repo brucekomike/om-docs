@@ -208,7 +208,6 @@ cd ..
 ```
 ## post installation
 just enable what your want, and config as other pages discribed
-## post upgrade 
 ### 复制文件
 命令可以用这个
 `$run_as_user cp <old_dir> <new_dir>`
