@@ -1,1 +1,4 @@
 # pve
+```{toctree}
+setup
+```
