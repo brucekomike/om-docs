@@ -1,1 +1,5 @@
 # keycloak
+```{toctree}
+install
+config
+```

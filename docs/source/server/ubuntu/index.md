@@ -1,6 +1,7 @@
 # ubuntu
 
 ```{toctree}
+:maxdepth: 2
 frp/index
 nginx/index
 mediawiki/index
