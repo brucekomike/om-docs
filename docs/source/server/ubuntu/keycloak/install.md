@@ -39,10 +39,9 @@ WantedBy=multi-user.target
 server {
   server_name keycloak.public.dns;
 
-  # To only redirect a specific set of paths, you may replace the line below with something of the form
-  # location ~ ^(/auth/resources/|/auth/js/|/auth/realms/olvid/) {
-  location /auth {
-  proxy_set_header X-Forwarded-For $remote_addr;
+  location / {
+  #proxy_set_header X-Forwarded-For $remote_addr;  
+  proxy_set_header X-Forwarded-For $http_x_forwarded_for;
   proxy_set_header X-Forwarded-Proto $scheme;
   proxy_set_header X-Forwarded-Host $host;
 
@@ -51,14 +50,6 @@ server {
 	proxy_busy_buffers_size 256k;
 
 	proxy_pass http://127.0.0.1:8080;
-  }
-
-  location /olvid {
-    return 302 /auth/olvid/;
-  }
-
-  location = / {
-    return 302 /auth;
   }
 
   client_max_body_size 10M;

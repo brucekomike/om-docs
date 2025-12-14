@@ -2,4 +2,5 @@
 ```{toctree}
 install
 config
+troubleshoot
 ```

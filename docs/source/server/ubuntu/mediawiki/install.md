@@ -62,8 +62,16 @@ declare -a multilang=("Babel"
 "Translate"
 "UniversalLanguageSelector"
 )
-declare -a centered_auth=("LDAPAuthentication2"
+declare -a centered_auth=(
 "Interwiki"
+"PluggableAuth"
+"Auth_remoteuser"
+"LDAPAuthentication2"
+"LDAPAuthorization"
+"LDAPGroups"
+"LDAPUserInfo"
+"LDAPProvider"
+"LDAPSyncAll"
 "PluggableAuth"
 )
 #"BlueSpiceExtendedSearch"

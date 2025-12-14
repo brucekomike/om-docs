@@ -29,5 +29,5 @@ mdx <sphinx_url>/_sources/page.md.txt
 example
 ```{code-block}
 export md_url={{mdurl}}
-mdx $mdurl/server/ubuntu/mediawiki/install.md.txt
+mdx $md_url/server/ubuntu/mediawiki/install.md.txt
 ```
