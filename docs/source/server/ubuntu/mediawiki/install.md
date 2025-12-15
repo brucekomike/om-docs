@@ -170,7 +170,7 @@ $run_as_user composer install --no-dev
 
 cd extensions
 
-export repo_url=https://github.com/mediawiki/mediawiki-extensions-
+export repo_url=https://github.com/wikimedia/mediawiki-extensions-
 for extn in "${extns[@]}"; do
   echo installing extension: $extn
   $run_as_user git clone $repo_url$extn $extn $git_var

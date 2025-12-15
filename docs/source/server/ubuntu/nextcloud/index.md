@@ -1,1 +1,5 @@
 # nextcloud
+```
+install
+config
+```
