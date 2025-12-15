@@ -7,7 +7,7 @@ sudo dpkg-reconfigure slapd
 ```
 
 ## config
-```plain
+```
 cat << EOF > bootstrap.ldif
 # users, lab.bytepen.com
 dn: ou=users,dc=example,dc=com
