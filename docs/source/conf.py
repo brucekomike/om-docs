@@ -79,7 +79,7 @@ html_css_files = [
 ]
 html_theme_options = {
     # github config here,
-    "source_repository": "https://github.com/brucekomike/furo-embeded",
+    "source_repository": "https://github.com/brucekomike/om-docs",
     "source_branch": "main",
     "source_directory": "docs/source/",
     # key navigation
