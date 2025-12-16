@@ -62,8 +62,16 @@ declare -a multilang=("Babel"
 "Translate"
 "UniversalLanguageSelector"
 )
-declare -a centered_auth=("LDAPAuthentication2"
+declare -a centered_auth=(
 "Interwiki"
+"PluggableAuth"
+"Auth_remoteuser"
+"LDAPAuthentication2"
+"LDAPAuthorization"
+"LDAPGroups"
+"LDAPUserInfo"
+"LDAPProvider"
+"LDAPSyncAll"
 "PluggableAuth"
 )
 #"BlueSpiceExtendedSearch"
@@ -162,7 +170,7 @@ $run_as_user composer install --no-dev
 
 cd extensions
 
-export repo_url=https://github.com/mediawiki/mediawiki-extensions-
+export repo_url=https://github.com/wikimedia/mediawiki-extensions-
 for extn in "${extns[@]}"; do
   echo installing extension: $extn
   $run_as_user git clone $repo_url$extn $extn $git_var

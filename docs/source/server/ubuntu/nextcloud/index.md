@@ -1,1 +1,5 @@
 # nextcloud
+```{toctree}
+install
+config
+```

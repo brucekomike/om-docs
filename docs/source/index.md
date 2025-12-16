@@ -19,5 +19,6 @@ client/ubuntu
 :caption: server setups
 server/tools/index
 server/ubuntu/index
+server/debian/index
 server/pve/index
 ```
