@@ -4,4 +4,5 @@
 install
 config
 upgrade
+runner
 ```

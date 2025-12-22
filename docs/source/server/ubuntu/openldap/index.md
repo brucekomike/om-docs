@@ -7,40 +7,29 @@ sudo dpkg-reconfigure slapd
 ```
 
 ## config
+```{code-block}
+wget {{url}}/remote/ubuntu/slapd/bootstrap.ldif
+wget {{url}}/remote/ubuntu/slapd/memberof2.ldif
+wget {{url}}/remote/ubuntu/slapd/memberof3.ldif
 ```
-cat << EOF > bootstrap.ldif
-# users, lab.bytepen.com
-dn: ou=users,dc=example,dc=com
-changetype: add
-objectClass: organizationalUnit
-ou: users
 
-# groups, lab.bytepen.com
-dn: ou=groups,dc=example,dc=com
-changetype: add
-objectClass: organizationalUnit
-ou: groups
-EOF
-```
-(base dn backup)
-```
-# example.com
-dn: dc=example,dc=com
-changetype: add
-objectClass: dcObject
-objectClass: organization
-dc: example
-o: Example Company
-```
 ## apply config
 ```
 ldapadd -x -D "cn=admin,dc=<MY-DOMAIN>,dc=<COM>" -W -f bootstrap.ldif
+```
+```
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f memberof2.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f memberof3.ldif
+
 ```
 
 ## search
 without login
 ```
 ldapsearch -x -b "ou=users,dc=example,dc=com" "(uid=xxx)"
+```
+```
+sudo ldapsearch -Y EXTERNAL -H ldapi:/// -b "dc=example,dc=com"
 ```
 with login
 ```

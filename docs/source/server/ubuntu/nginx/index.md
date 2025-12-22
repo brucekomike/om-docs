@@ -1,4 +1,5 @@
 # nginx
 ```{toctree}
 certbot
+configs
 ```
