@@ -1,0 +1,692 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN" data-content_root="../../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="mediawiki installation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://brucekomike.github.io/om-docs/server/ubuntu/mediawiki/install.html" />
+<meta property="og:site_name" content="om-docs" />
+<meta property="og:description" content="update system packages: setup proxy scripts: env: 环境变量,后面的脚本依赖这个,插件列表也在这里，记得改一下，然后存一个自己的版本，新安装的话，好像不需要socialprofile 1.43: 1.44: 目前 PreToClip 以及 DPL3 没有 REL1_44 这个分支，需要手动选择 master extension select: ..." />
+<meta name="description" content="update system packages: setup proxy scripts: env: 环境变量,后面的脚本依赖这个,插件列表也在这里，记得改一下，然后存一个自己的版本，新安装的话，好像不需要socialprofile 1.43: 1.44: 目前 PreToClip 以及 DPL3 没有 REL1_44 这个分支，需要手动选择 master extension select: ..." />
+<link rel="index" title="索引" href="../../../genindex.html"><link rel="search" title="搜索" href="../../../search.html"><link rel="next" title="upgrade" href="upgrade.html"><link rel="prev" title="mediawiki" href="index.html">
+
+    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
+        <title>mediawiki installation - om-docs</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/footer.css?v=a09c6268" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">om-docs</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <span class="sidebar-brand-text">om-docs</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="搜索" name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">local setups</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../client/arch.html">arch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client/gentoo.html">gentoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client/opensuse.html">opensuse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../client/ubuntu.html">ubuntu</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">server setups</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../tools/index.html">tools</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">ubuntu</a><input aria-label="Toggle navigation of ubuntu" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../docker/index.html">docker</a><input aria-label="Toggle navigation of docker" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../docker/install.html">安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/proxy.html">配置代理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../frp/index.html">frp</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../nginx/index.html">nginx</a><input aria-label="Toggle navigation of nginx" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../nginx/certbot.html">cerbot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nginx/configs.html">配置文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mariadb/index.html">mariadb</a></li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">mediawiki</a><input aria-label="Toggle navigation of mediawiki" checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">mediawiki installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="upgrade.html">upgrade</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../nextcloud/index.html">nextcloud</a><input aria-label="Toggle navigation of nextcloud" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../nextcloud/install.html">install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nextcloud/config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nextcloud/troubleshoot.html">故障排除</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openldap/index.html">openldap</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../keycloak/index.html">keycloak</a><input aria-label="Toggle navigation of keycloak" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../keycloak/install.html">install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../keycloak/config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../keycloak/troubleshoot.html">疑难解答</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../gitlab/index.html">gitlab</a><input aria-label="Toggle navigation of gitlab" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gitlab/install.html">install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitlab/config.html">config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitlab/upgrade.html">upgrade</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitlab/runner.html">runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../funkwhale/index.html">funkwhale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rustdesk/index.html">rustdesk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overleaf/index.html">overleaf</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../debian/index.html">Debian</a><input aria-label="Toggle navigation of Debian" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../debian/upgrade.html">升级系统</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../pve/index.html">pve</a><input aria-label="Toggle navigation of pve" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pve/setup.html">system setup</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/brucekomike/om-docs/blob/main/docs/source/server/ubuntu/mediawiki/install.md?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/brucekomike/om-docs/edit/main/docs/source/server/ubuntu/mediawiki/install.md" rel="edit" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="mediawiki-installation">
+<h1>mediawiki installation<a class="headerlink" href="#mediawiki-installation" title="链接到此标题。">¶</a></h1>
+<section id="update-system-packages">
+<h2>update system packages<a class="headerlink" href="#update-system-packages" title="链接到此标题。">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+<span class="nb">export</span><span class="w"> </span><span class="nv">apt_cli</span><span class="o">=</span><span class="s2">&quot;sudo apt install&quot;</span>
+<span class="nv">$apt_cli</span><span class="w"> </span>nginx<span class="w"> </span>mariadb-server<span class="w"> </span>composer
+<span class="nv">$apt_cli</span><span class="w"> </span>php-fpm<span class="w"> </span>php<span class="w"> </span>php-mysql<span class="w"> </span>php-xml<span class="w"> </span>php-mbstring<span class="w"> </span>php-intl<span class="w"> </span>php-curl<span class="w"> </span>php-apcu<span class="w"> </span>php-gd
+</pre></div>
+</div>
+</section>
+<section id="setup-proxy-scripts">
+<h2>setup proxy scripts<a class="headerlink" href="#setup-proxy-scripts" title="链接到此标题。">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># required for local mandariners, client settings see [[ssh]]</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span><span class="s2">&quot;ossmedia.cn/set-proxy.sh?raw&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">OW_PORT</span><span class="o">=</span><span class="m">12321</span><span class="w"> </span>bash
+</pre></div>
+</div>
+</section>
+<section id="env">
+<h2>env<a class="headerlink" href="#env" title="链接到此标题。">¶</a></h2>
+<p>环境变量,后面的脚本依赖这个,插件列表也在这里，记得改一下，然后存一个自己的版本，新安装的话，好像不需要socialprofile</p>
+<section id="id1">
+<h3>1.43<a class="headerlink" href="#id1" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">## edit this part as your wish</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">mw_version</span><span class="o">=</span>REL1_43
+<span class="nb">export</span><span class="w"> </span><span class="nv">citizen_ver</span><span class="o">=</span>v2.40.2
+<span class="nb">export</span><span class="w"> </span><span class="nv">proxyer</span><span class="o">=</span>
+<span class="c1"># comment the proxyer below to use the actual proxyer</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">proxyer</span><span class="o">=</span>proxy.sh
+<span class="nb">export</span><span class="w"> </span><span class="nv">run_as_user</span><span class="o">=</span><span class="s2">&quot;sudo -u www-data </span><span class="nv">$proxyer</span><span class="s2">&quot;</span>
+
+<span class="c1">## should not be edited</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">git_var</span><span class="o">=</span><span class="s2">&quot;--branch </span><span class="nv">$mw_version</span><span class="s2"> --single-branch --depth 1&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>1.44<a class="headerlink" href="#id2" title="链接到此标题。">¶</a></h3>
+<p>目前 PreToClip 以及 DPL3 没有 REL1_44 这个分支，需要手动选择 master</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">## edit this part as your wishs</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">mw_version</span><span class="o">=</span>REL1_44
+<span class="nb">export</span><span class="w"> </span><span class="nv">citizen_ver</span><span class="o">=</span>v3.1.0
+<span class="nb">export</span><span class="w"> </span><span class="nv">proxyer</span><span class="o">=</span>
+<span class="c1"># comment the proxyer below to use the actual proxyer</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">proxyer</span><span class="o">=</span>proxy.sh
+<span class="nb">export</span><span class="w"> </span><span class="nv">run_as_user</span><span class="o">=</span><span class="s2">&quot;sudo -u www-data </span><span class="nv">$proxyer</span><span class="s2">&quot;</span>
+
+<span class="c1">## should not be edited</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">git_var</span><span class="o">=</span><span class="s2">&quot;--branch </span><span class="nv">$mw_version</span><span class="s2"> --single-branch --depth 1&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="extension-select">
+<h2>extension select<a class="headerlink" href="#extension-select" title="链接到此标题。">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># extension list</span>
+<span class="nb">declare</span><span class="w"> </span>-a<span class="w"> </span><span class="nv">basictools</span><span class="o">=(</span><span class="s2">&quot;Popups&quot;</span><span class="w"> </span>
+<span class="s2">&quot;PreToClip&quot;</span>
+<span class="s2">&quot;Popups&quot;</span>
+<span class="s2">&quot;TemplateStyles&quot;</span>
+<span class="s2">&quot;ConfirmAccount&quot;</span>
+<span class="s2">&quot;intersection&quot;</span>
+<span class="s2">&quot;CodeMirror&quot;</span>
+<span class="o">)</span>
+<span class="c1"># multi lang pack</span>
+<span class="nb">declare</span><span class="w"> </span>-a<span class="w"> </span><span class="nv">multilang</span><span class="o">=(</span><span class="s2">&quot;Babel&quot;</span>
+<span class="s2">&quot;cldr&quot;</span>
+<span class="s2">&quot;CleanChanges&quot;</span>
+<span class="s2">&quot;Translate&quot;</span>
+<span class="s2">&quot;UniversalLanguageSelector&quot;</span>
+<span class="o">)</span>
+<span class="nb">declare</span><span class="w"> </span>-a<span class="w"> </span><span class="nv">centered_auth</span><span class="o">=(</span>
+<span class="s2">&quot;Interwiki&quot;</span>
+<span class="s2">&quot;PluggableAuth&quot;</span>
+<span class="s2">&quot;Auth_remoteuser&quot;</span>
+<span class="s2">&quot;LDAPAuthentication2&quot;</span>
+<span class="s2">&quot;LDAPAuthorization&quot;</span>
+<span class="s2">&quot;LDAPGroups&quot;</span>
+<span class="s2">&quot;LDAPUserInfo&quot;</span>
+<span class="s2">&quot;LDAPProvider&quot;</span>
+<span class="s2">&quot;LDAPSyncAll&quot;</span>
+<span class="s2">&quot;PluggableAuth&quot;</span>
+<span class="o">)</span>
+<span class="c1">#&quot;BlueSpiceExtendedSearch&quot;</span>
+<span class="c1">#&quot;JsonConfig&quot;</span>
+<span class="c1">#&quot;SocialProfile&quot;</span>
+</pre></div>
+</div>
+<p>then have a sellection</p>
+<section id="basic">
+<h3>basic<a class="headerlink" href="#basic" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">extns</span><span class="o">=(</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">basictools</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-multilang">
+<h3>basic + multilang<a class="headerlink" href="#basic-multilang" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">extns</span><span class="o">=(</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">basictools</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">multilang</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="basic-multilang-ldap-1-43">
+<h3>basic + multilang + ldap (1.43)<a class="headerlink" href="#basic-multilang-ldap-1-43" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">extns</span><span class="o">=(</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">basictools</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">multilang</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">centered_auth</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="db-init">
+<h2>db init<a class="headerlink" href="#db-init" title="链接到此标题。">¶</a></h2>
+<p>只有第一次安装需要这个，所以没怎么测试，配置数据库的</p>
+<section id="credits">
+<h3>credits<a class="headerlink" href="#credits" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set your variables</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_user</span><span class="o">=</span><span class="s2">&quot;your_username&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_name</span><span class="o">=</span><span class="s2">&quot;your_database&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_pass</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">12</span><span class="k">)</span><span class="w">  </span><span class="c1"># Generates a random password</span>
+
+<span class="c1"># MySQL root credentials</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_root</span><span class="o">=</span><span class="s2">&quot;root&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_root_pass</span><span class="o">=</span><span class="s2">&quot;passwd here&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="db-creation">
+<h3>db creation<a class="headerlink" href="#db-creation" title="链接到此标题。">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the database</span>
+mysql<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$db_root</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="s2">&quot;</span><span class="nv">$db_root_pass</span><span class="s2">&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;CREATE DATABASE IF NOT EXISTS </span><span class="nv">$db_name</span><span class="s2">;&quot;</span>
+
+<span class="c1"># Create the user and grant permissions</span>
+mysql<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$db_root</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="s2">&quot;</span><span class="nv">$db_root_pass</span><span class="s2">&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;CREATE USER IF NOT EXISTS &#39;</span><span class="nv">$db_user</span><span class="s2">&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;</span><span class="nv">$db_pass</span><span class="s2">&#39;;&quot;</span>
+mysql<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$db_root</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="s2">&quot;</span><span class="nv">$db_root_pass</span><span class="s2">&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;GRANT ALL PRIVILEGES ON </span><span class="nv">$db_name</span><span class="s2">.* TO &#39;</span><span class="nv">$db_user</span><span class="s2">&#39;@&#39;localhost&#39;;&quot;</span>
+mysql<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$db_root</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="s2">&quot;</span><span class="nv">$db_root_pass</span><span class="s2">&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;FLUSH PRIVILEGES;&quot;</span>
+
+<span class="c1"># Output the generated password</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Database: </span><span class="nv">$db_name</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;User: </span><span class="nv">$db_user</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Password: </span><span class="nv">$db_pass</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pre-wiki-upgrade">
+<h2>pre wiki upgrade<a class="headerlink" href="#pre-wiki-upgrade" title="链接到此标题。">¶</a></h2>
+<p>备份数据库，更新前跑一下，以防万一不是，先进到安装目录</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the backups dir</span>
+<span class="nv">$run_as_user</span><span class="w"> </span>mkdir<span class="w"> </span>backups
+<span class="nb">cd</span><span class="w"> </span>backups
+</pre></div>
+</div>
+<p>然后从你的配置文件拉取账号信息自动备份，假定用的mariadb（mysql估计没问题</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path to your LocalSettings.php file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">conf_file</span><span class="o">=</span><span class="s2">&quot;../LocalSettings.php&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">separator</span><span class="o">=</span><span class="s2">&quot;&#39;&quot;</span>
+<span class="c1"># might be &#39;&quot;&#39; at 1.41, and &quot;&#39;&quot; in 1.42</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract database credentials</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_name</span><span class="o">=</span><span class="k">$(</span><span class="nv">$run_as_user</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;\$wgDBname&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$conf_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="nv">$separator</span><span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_user</span><span class="o">=</span><span class="k">$(</span><span class="nv">$run_as_user</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;\$wgDBuser&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$conf_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="nv">$separator</span><span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">db_pass</span><span class="o">=</span><span class="k">$(</span><span class="nv">$run_as_user</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;\$wgDBpassword&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$conf_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="nv">$separator</span><span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+<span class="nv">timestamp</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d_%H%M%S<span class="k">)</span>
+<span class="nv">sql_bak</span><span class="o">=</span><span class="s2">&quot;backup_</span><span class="si">${</span><span class="nv">timestamp</span><span class="si">}</span><span class="s2">.sql&quot;</span>
+<span class="nv">xml_bak</span><span class="o">=</span><span class="s2">&quot;backup_</span><span class="si">${</span><span class="nv">timestamp</span><span class="si">}</span><span class="s2">.xml&quot;</span>
+
+<span class="nv">$run_as_user</span><span class="w"> </span>mysqldump<span class="w"> </span>--user<span class="o">=</span><span class="nv">$db_user</span><span class="w"> </span>--password<span class="o">=</span><span class="nv">$db_pass</span><span class="w"> </span><span class="nv">$db_name</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">$run_as_user</span><span class="w"> </span>tee<span class="w"> </span><span class="nv">$sql_bak</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="nv">$run_as_user</span><span class="w"> </span>mysqldump<span class="w"> </span>--user<span class="o">=</span><span class="nv">$db_user</span><span class="w"> </span>--password<span class="o">=</span><span class="nv">$db_pass</span><span class="w"> </span><span class="nv">$db_name</span><span class="w"> </span>--xml<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nv">$run_as_user</span><span class="w"> </span>tee<span class="w"> </span><span class="nv">$xml_bak</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+</pre></div>
+</div>
+</section>
+<section id="main">
+<h2>main<a class="headerlink" href="#main" title="链接到此标题。">¶</a></h2>
+<p>安装主要部分，本体、插件、皮肤</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the mediawiki</span>
+<span class="nb">cd</span><span class="w"> </span>/opt/www
+<span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://gerrit.wikimedia.org/r/mediawiki/core.git<span class="w"> </span><span class="se">\</span>
+<span class="nv">$git_var</span><span class="w"> </span>mediawiki-<span class="nv">$mw_version</span>
+
+<span class="c1"># get vendor lib</span>
+<span class="nb">cd</span><span class="w"> </span>mediawiki-<span class="nv">$mw_version</span>
+<span class="c1"># first update all submodule</span>
+<span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w"> </span>--recursive<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span>
+
+<span class="c1"># composer way, in use</span>
+<span class="nv">$run_as_user</span><span class="w"> </span>composer<span class="w"> </span>install<span class="w"> </span>--no-dev
+<span class="c1"># git way, commented</span>
+<span class="c1">#$run_as_user git clone https://gerrit.wikimedia.org/r/mediawiki/vendor.git $git_var </span>
+
+<span class="c1">## get the extensions</span>
+
+<span class="nb">cd</span><span class="w"> </span>extensions
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">repo_url</span><span class="o">=</span>https://github.com/wikimedia/mediawiki-extensions-
+<span class="k">for</span><span class="w"> </span>extn<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">extns</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span>installing<span class="w"> </span>extension:<span class="w"> </span><span class="nv">$extn</span>
+<span class="w">  </span><span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$repo_url$extn</span><span class="w"> </span><span class="nv">$extn</span><span class="w"> </span><span class="nv">$git_var</span>
+<span class="k">done</span>
+
+<span class="c1"># dpl3</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">repo_url</span><span class="o">=</span>https://github.com/Universal-Omega/DynamicPageList3.git
+<span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$repo_url</span><span class="w"> </span><span class="nv">$git_var</span>
+
+<span class="c1"># extender</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">get_repo</span><span class="o">=</span><span class="s2">&quot;git clone https://github.com/octfx/mediawiki-extensions-TemplateStylesExtender&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">clone_dir</span><span class="o">=</span><span class="s2">&quot;TemplateStylesExtender&quot;</span>
+<span class="nv">$run_as_user</span><span class="w"> </span><span class="nv">$get_repo</span><span class="w"> </span><span class="nv">$clone_dir</span>
+
+<span class="c1"># misctools</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">repo_url</span><span class="o">=</span>https://github.com/brucekomike/MiscTools
+<span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$repo_url</span><span class="w"> </span><span class="nv">$git_var</span>
+
+<span class="c1">## extentions install</span>
+<span class="k">for</span><span class="w"> </span>dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>*/<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Entering directory: </span><span class="nv">$dir</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="c1"># Check if composer.json exists</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;composer.json&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">$run_as_user</span><span class="w"> </span>composer<span class="w"> </span>install<span class="w"> </span>--no-dev
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No composer.json found in </span><span class="nv">$dir</span><span class="s2">, skipping...&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1">## get skin</span>
+<span class="nb">cd</span><span class="w"> </span>../skins
+
+<span class="c1"># citizen</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">repo_url</span><span class="o">=</span>https://github.com/StarCitizenTools/mediawiki-skins-Citizen
+<span class="nv">$run_as_user</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$repo_url</span><span class="w"> </span>--branch<span class="w"> </span><span class="nv">$citizen_ver</span><span class="w"> </span>--single-branch<span class="w"> </span>--depth<span class="o">=</span><span class="m">1</span><span class="w"> </span>Citizen
+
+<span class="c1"># back to the main dir</span>
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+</section>
+<section id="post-installation">
+<h2>post installation<a class="headerlink" href="#post-installation" title="链接到此标题。">¶</a></h2>
+<p>just enable what your want, and config as other pages discribed</p>
+<section id="id3">
+<h3>复制文件<a class="headerlink" href="#id3" title="链接到此标题。">¶</a></h3>
+<p>命令可以用这个
+<code class="docutils literal notranslate"><span class="pre">$run_as_user</span> <span class="pre">cp</span> <span class="pre">&lt;old_dir&gt;</span> <span class="pre">&lt;new_dir&gt;</span></code>
+检查列表(相对路径)</p>
+<ul class="simple">
+<li><p>/LocalSettings.php</p></li>
+<li><p>/resources/assets/*</p></li>
+</ul>
+</section>
+<section id="update-scripts">
+<h3>update scripts<a class="headerlink" href="#update-scripts" title="链接到此标题。">¶</a></h3>
+<p>最后运行更新脚本</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$run_as_user</span><span class="w"> </span>php<span class="w"> </span>maintenance/run.php<span class="w"> </span>update
+</pre></div>
+</div>
+</section>
+<section id="linking">
+<h3>linking<a class="headerlink" href="#linking" title="链接到此标题。">¶</a></h3>
+<p>替换软链接上架网站 XD</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># link the installation to /var/www</span>
+<span class="nb">cd</span><span class="w"> </span>..
+sudo<span class="w"> </span>rm<span class="w"> </span>/var/www/mediawiki
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/opt/www/mediawiki-<span class="nv">$mw_version</span><span class="w"> </span>/var/www/mediawiki
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="upgrade.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">upgrade</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">mediawiki</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, brucekomike
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            <div class="last-updated">
+              Last updated on 2026 年 01 月 26 日</div>
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+<div class="footer-contribute">
+  <ul>
+    <li>
+       <a href="https://github.com/brucekomike/furo-embeded">use this template</a>
+    </li>
+    <li>
+      <a href="https://github.com/brucekomike/om-docs">Project Repo</a>
+   </li>
+  </ul>
+</div>
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">mediawiki installation</a><ul>
+<li><a class="reference internal" href="#update-system-packages">update system packages</a></li>
+<li><a class="reference internal" href="#setup-proxy-scripts">setup proxy scripts</a></li>
+<li><a class="reference internal" href="#env">env</a><ul>
+<li><a class="reference internal" href="#id1">1.43</a></li>
+<li><a class="reference internal" href="#id2">1.44</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extension-select">extension select</a><ul>
+<li><a class="reference internal" href="#basic">basic</a></li>
+<li><a class="reference internal" href="#basic-multilang">basic + multilang</a></li>
+<li><a class="reference internal" href="#basic-multilang-ldap-1-43">basic + multilang + ldap (1.43)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#db-init">db init</a><ul>
+<li><a class="reference internal" href="#credits">credits</a></li>
+<li><a class="reference internal" href="#db-creation">db creation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pre-wiki-upgrade">pre wiki upgrade</a></li>
+<li><a class="reference internal" href="#main">main</a></li>
+<li><a class="reference internal" href="#post-installation">post installation</a><ul>
+<li><a class="reference internal" href="#id3">复制文件</a></li>
+<li><a class="reference internal" href="#update-scripts">update scripts</a></li>
+<li><a class="reference internal" href="#linking">linking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=35e0b7f7"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../../_static/tabs.js?v=3ee01567"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=540d3cec"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

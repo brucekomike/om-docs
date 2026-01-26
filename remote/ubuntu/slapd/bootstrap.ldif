@@ -1,0 +1,11 @@
+
+# Entry 5: ou=users,dc=example,dc=com
+dn: ou=users,dc=example,dc=com
+objectclass: organizationalUnit
+ou: users
+
+# Entry 2: ou=groups,dc=example,dc=com
+dn: ou=groups,dc=example,dc=com
+objectclass: organizationalUnit
+ou: groups
+
