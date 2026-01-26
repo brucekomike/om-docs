@@ -5,7 +5,7 @@
 sudo apt update && sudo apt upgrade
 export apt_cli="sudo apt install"
 $apt_cli nginx mariadb-server composer
-$apt_cli php php-fpm php-mysql php-xml php-mbstring php-intl php-curl php-apcu php-gd
+$apt_cli php-fpm php php-mysql php-xml php-mbstring php-intl php-curl php-apcu php-gd
 ```
 ## setup proxy scripts
 ```
@@ -33,7 +33,7 @@ export git_var="--branch $mw_version --single-branch --depth 1"
 ### 1.44
 目前 PreToClip 以及 DPL3 没有 REL1_44 这个分支，需要手动选择 master
 ```
-## edit this part as your wish
+## edit this part as your wishs
 export mw_version=REL1_44
 export citizen_ver=v3.1.0
 export proxyer=
